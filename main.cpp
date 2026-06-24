@@ -70,7 +70,7 @@ int main() {
       //
       //   read more at :Man complex or :Man creal
 
-      std::complex(srq_x, srq_y);
+      std::complex<double> z = ;
 
       for (int o = 0; o < 100; o++) {
         srq_x = srq_x * srq_x;

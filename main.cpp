@@ -54,6 +54,7 @@ int main() {
         z = z * z;
         z += a;
         if (std::norm(z) >= 4) {
+          // TODO: find a better way of doing this
           if (o <= 20)
             buffer[(WIDTH * i) + j] = 0x0000FFFF;
           else if (o <= 80)

@@ -8,8 +8,10 @@ int WIDTH = 800;
 int HEIGHT = 600;
 
 uint32_t buffer[800 * 600];
-
-double map_pixel(int number, int map_pixel, int new_min, int new_max) {
+std::complex<double> a(-0.9, 0.156);
+size_t max_interations = 100;
+bool quit = false;
+double map_pixel(int number, int map_pixel, double new_min, double new_max) {
   return new_min + ((new_max - new_min) * number) / map_pixel;
 }
 
@@ -40,28 +42,28 @@ int main() {
   SDL_Texture *texture =
       SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
                         SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
-  bool quit = false;
 
   /* main render logic */
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
-      double y = map_pixel(i, HEIGHT, -2, 2);
-      double x = map_pixel(j, WIDTH, -2, 2);
+      double y = map_pixel(i, HEIGHT, -2.0, 2.0);
+      double x = map_pixel(j, WIDTH, -2.0, 2.0);
 
       std::complex<double> z(x, y);
-      std::complex<double> a(-0.8, 0.156);
-      for (int o = 0; o < 100; o++) {
+      int iter = 0;
+      while (iter < max_interations) {
         z = z * z;
         z += a;
-        if (std::norm(z) >= 4) {
+        iter++;
+        if (std::norm(z) >= 4.0) {
           // TODO: find a better way of doing this
-          if (o <= 20)
-            buffer[(WIDTH * i) + j] = 0x0000FFFF;
-          else if (o <= 80)
-            buffer[(WIDTH * i) + j] = 0x66CCFFFF;
-          else if (o <= 100)
-            buffer[(WIDTH * i) + j] = 0x00000000;
+          break;
         }
+      }
+      if (iter < max_interations) {
+        buffer[(WIDTH * i) + j] = 0x000000FF;
+      } else if (iter == max_interations) {
+        buffer[(WIDTH * i) + j] = 0X00000000;
       }
     }
   }
@@ -71,12 +73,12 @@ int main() {
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
       case SDL_QUIT:
-        quit = false;
+        quit = true;
         break;
 
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_ESCAPE) {
-          quit = false;
+          quit = true;
         }
         break;
       }

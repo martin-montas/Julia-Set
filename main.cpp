@@ -29,8 +29,8 @@ int main() {
     exit(1);
   }
 
-  SDL_Renderer *renderer =
-      SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+  SDL_Renderer *renderer = SDL_CreateRenderer(
+      window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
   if (!renderer) {
     printf("Renderer Error: %s\n", SDL_GetError());
@@ -43,40 +43,17 @@ int main() {
   bool quit = false;
 
   /* main render logic */
-  for (int i = 0; i < WIDTH; i++) {
-    for (int j = 0; j < HEIGHT; j++) {
-      double y = map_pixel(i, WIDTH, -2, 2);
-      double x = map_pixel(j, HEIGHT, -2, 2);
+  for (int i = 0; i < HEIGHT; i++) {
+    for (int j = 0; j < WIDTH; j++) {
+      double y = map_pixel(i, HEIGHT, -2, 2);
+      double x = map_pixel(j, WIDTH, -2, 2);
 
-      double srq_x = x, srq_y = y;
-
-      // EXAMPLES
-      //   Your C-compiler can work with complex numbers if it supports the
-      //   C99 standard.  The imaginary unit is represented by I.
-      //
-      //   /* check that exp(i * pi) == -1 */
-      //   #include <math.h>        /* for atan */
-      //   #include <stdio.h>
-      //   #include <complex.h>
-      //
-      //   int
-      //   main(void)
-      //   {
-      //       double pi = 4 * atan(1.0);
-      //       double complex z = cexp(I * pi);
-      //       printf("%f + %f * i\n", creal(z), cimag(z));
-      //   }
-      //
-      //
-      //   read more at :Man complex or :Man creal
-
-      std::complex<double> z = ;
-
+      std::complex<double> z(x, y);
+      std::complex<double> a(-0.8, 0.156);
       for (int o = 0; o < 100; o++) {
-        srq_x = srq_x * srq_x;
-        srq_y = srq_y * srq_y;
-
-        if ((srq_x + srq_y) > 4) {
+        z = z * z;
+        z += a;
+        if (std::norm(z) >= 4) {
           if (o <= 20)
             buffer[(WIDTH * i) + j] = 0x0000FFFF;
           else if (o <= 80)

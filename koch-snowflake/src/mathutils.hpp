@@ -19,7 +19,8 @@ public:
     // h = (√3 / 2) * r
 
     // TODO: calculate r here
-    return sqrt(3) / 2 *;
+    float r;
+    return sqrt(3) / 2 * r;
   }
 };
 

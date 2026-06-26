@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <complex>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int WIDTH  = 800;
@@ -46,19 +47,21 @@ int main() {
     /* main render logic */
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
-            double y = map_pixel(i, HEIGHT, -2.0, 2.0);
             double x = map_pixel(j, WIDTH, -2.0, 2.0);
+            double y = map_pixel(i, HEIGHT, -2.0, 2.0);
 
             std::complex<double> c(x, y);
             int                  iter = 0;
-            std::complex<double> z(0, 0);
+            std::complex<double> z(0.0, 0.0);
             while (iter < max_interations) {
-                // TODO: find a way to add
-                // complex number c to z
+                double real = std::abs(z.real());
+                double imag = std::abs(z.imag());
+
+                z = std::complex<double>(real, imag);
                 z = z * z;
                 z += c;
                 iter++;
-                if (std::norm(z) >= 4.0) {
+                if (std::abs(z) > 2.0) {
                     break;
                 }
             }

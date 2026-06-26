@@ -2,9 +2,10 @@
 #include <math.h>
 #include "mathutils.hpp"
 
-SDL_FPoint calc_mid_point_vec(SDL_FPoint v1, SDL_FPoint v2) {
+float calc_mid_point_vec(SDL_FPoint v1, SDL_FPoint v2) {
     // C = (A + B) / 2.
-    return SDL_FPoint{(v1.x + v2.x) / 2, (v1.y + v2.y) / 2};
+    float mid_point = (v1.x + v2.x) / 2, (v1.y + v2.y) / 2;
+    return mid_point;
 }
 
 float calc_distance_vec(SDL_FPoint v1, SDL_FPoint v2) {
@@ -25,5 +26,8 @@ SDL_FPoint calc_p2_vec(SDL_FPoint v1, SDL_FPoint v2) {
     // equilateral triangle with side length r. The Pythagorean theorem tells
     // you:
     // TODO you are here
-    return SDL_FPoint{};
+    float mid    = calc_mid_point_vec(v1, v2);
+    float height = calc_height_vec(v1, v2)
+
+        return SDL_FPoint{};
 }

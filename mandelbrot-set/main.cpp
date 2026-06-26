@@ -49,11 +49,14 @@ int main() {
             double y = map_pixel(i, HEIGHT, -2.0, 2.0);
             double x = map_pixel(j, WIDTH, -2.0, 2.0);
 
-            std::complex<double> z(x, y);
+            std::complex<double> c(x, y);
             int                  iter = 0;
+            std::complex<double> z(0, 0);
             while (iter < max_interations) {
+                // TODO: find a way to add
+                // complex number c to z
                 z = z * z;
-                z += a;
+                z += c;
                 iter++;
                 if (std::norm(z) >= 4.0) {
                     break;

@@ -53,8 +53,6 @@ int main() {
             int                  iter = 0;
             std::complex<double> z(0, 0);
             while (iter < max_interations) {
-                // TODO: find a way to add
-                // complex number c to z
                 z = z * z;
                 z += c;
                 iter++;
